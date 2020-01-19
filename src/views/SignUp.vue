@@ -1,7 +1,7 @@
 <template>
   <b-col sm="4" offset-sm="4">
     <b-form>
-      <h2>Sign Up</h2>
+      <h2>Registrarse</h2>
       <b-form-group>
         <b-form-input
           type="text"
@@ -18,17 +18,17 @@
       </b-form-group>
       <b-button
         variant="primary"
-        @click="submit()"
+        @click="submit"
       >
-        Sign Up
+        Registrarse
       </b-button>
     </b-form>
     <b-button
       class="m-1"
       variant="secondary"
-      @click="goToLogin()"
+      @click="goToLogin"
     >
-      Log In
+      Iniciar sesión
     </b-button>
   </b-col>
 </template>
@@ -52,11 +52,16 @@ export default {
         password: this.credentials.password,
       };
       authService.signup(credentials).then(() => {
-        this.goToLogin();
+        authService.login(credentials).then(() => {
+          this.goToMain();
+        });
       });
     },
     goToLogin() {
       this.$router.push('/login');
+    },
+    goToMain() {
+      this.$router.push('/');
     },
   },
 };
