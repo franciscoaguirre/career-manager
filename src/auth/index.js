@@ -15,6 +15,7 @@ export default {
         'authToken',
         response.headers.authorization.substring(7),
       );
+      axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('authToken')}`;
     });
   },
   signup(credentials) {
@@ -23,14 +24,15 @@ export default {
     });
   },
   signOut() {
-    axios.delete(SIGNOUT_URL, {
+    return axios.delete(SIGNOUT_URL, {
       headers: this.getAuthHeader(),
+    }).then(() => {
+      localStorage.removeItem('authToken');
+      delete axios.defaults.headers.common.Authorization;
     });
-    localStorage.removeItem('authToken');
   },
   isAuthenticated() {
-    const jwt = localStorage.getItem('authToken');
-    return !!jwt;
+    return !!localStorage.getItem('authToken');
   },
   getAuthHeader() {
     return {
