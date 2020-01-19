@@ -1,7 +1,7 @@
 <template>
   <b-col sm="4" offset-sm="4">
-    <b-form>
-      <h2>Log In</h2>
+    <b-form @submit.prevent="submit">
+      <h2>Iniciar sesión</h2>
       <b-form-group>
         <b-form-input
           type="text"
@@ -17,18 +17,18 @@
         />
       </b-form-group>
       <b-button
+        type="submit"
         variant="primary"
-        @click="submit()"
       >
-        Log In
+        Iniciar sesión
       </b-button>
     </b-form>
     <b-button
       class="m-1"
       variant="secondary"
-      @click="goToSignUp()"
+      @click="goToSignUp"
     >
-      Sign Up
+      Registrarse
     </b-button>
   </b-col>
 </template>
