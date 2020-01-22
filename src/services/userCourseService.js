@@ -4,6 +4,10 @@ import API_URL from '../constants';
 
 const USER_COURSES_URL = `${API_URL}/user_courses`;
 
+window.deleteUserCourse = function (userCourseId) {
+  return axios.delete(`${USER_COURSES_URL}/${userCourseId}`);
+};
+
 export default {
   index() {
     return axios.get(USER_COURSES_URL);
