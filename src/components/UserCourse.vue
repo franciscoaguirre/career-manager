@@ -6,7 +6,7 @@
           {{ userCourse.course.name }}
         </p>
         <p class="font-weight-light m-0">
-          {{ userCourse.course.institute }}
+          {{ userCourse.course.institute.name }}
         </p>
       </b-col>
       <b-col cols="6" class="m-0 text-truncate">
@@ -24,6 +24,30 @@
     </b-row>
   </li>
 </template>
+
+<script>
+import EventBus from '@/eventBus';
+
+export default {
+  name: 'UserCourse',
+  props: {
+    userCourse: Object,
+  },
+  methods: {
+    toggleDelete() {
+      const deleteCall = {
+        id: this.userCourse.id,
+        type: 'UserCourse',
+      };
+      EventBus.$emit('delete-requested', deleteCall);
+      EventBus.$on('delete-done', (deleteChannel) => {
+        this.$emit(deleteChannel, this.userCourse.id);
+        EventBus.$off('delete-done');
+      });
+    },
+  },
+};
+</script>
 
 <style scoped>
 .vertical-center {
@@ -59,24 +83,3 @@
   color: #721c24;
 }
 </style>
-
-<script>
-export default {
-  name: 'Course',
-  props: {
-    userCourse: Object,
-  },
-  
-  data() {
-    return {
-      delete: false,
-    };
-  },
-
-  methods: {
-    toggleDelete() {
-      this.delete = !this.delete;
-    },
-  },
-};
-</script>
