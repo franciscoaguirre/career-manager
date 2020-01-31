@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-col sm="9">
     <h1>
       Career Manager
     </h1>
@@ -59,7 +59,7 @@
         Cerrar sesión
       </b-button>
     </b-col>
-  </b-container>
+  </b-col>
 </template>
 
 <script>
