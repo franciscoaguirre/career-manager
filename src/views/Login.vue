@@ -1,5 +1,5 @@
 <template>
-  <b-col sm="4" offset-sm="4">
+  <b-col sm="6" offset-sm="3">
     <b-form @submit.prevent="submit">
       <h2>Iniciar sesión</h2>
       <b-form-group>

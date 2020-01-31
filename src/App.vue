@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <b-row align-h="start" id="app">
+    <SideMenu></SideMenu>
+    <b-col sm="9">
+      <router-view/>
+    </b-col>
+  </b-row>
 </template>
 
 <style lang="scss">
@@ -14,18 +14,18 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
 }
 </style>
+
+<script>
+import SideMenu from '@/components/SideMenu.vue';
+
+export default {
+  components: {
+    SideMenu,
+  },
+};
+</script>
