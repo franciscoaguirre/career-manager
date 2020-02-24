@@ -5,7 +5,13 @@
       {{ semester.credits }}/{{ semester.total_credits }}
     </div>
     <div class="courses">
-      Agregar cursos
+      <UserCourse
+        v-for="userCourse in userCourses"
+        :key="userCourse.id"
+        :userCourse="userCourse"
+        @deleted="getUserCourses"
+      ></UserCourse>
+      <NewUserCourse :semesterId="semester.id" @created="getUserCourses"></NewUserCourse>
     </div>
     <div class="delete" v-if="deletable" @click="deleteSemester">
       <i class="material-icons">
@@ -17,6 +23,10 @@
 
 <script>
 import semestersService from '@/services/semestersService';
+import userCourseService from '@/services/userCourseService';
+
+import UserCourse from './UserCourse.vue';
+import NewUserCourse from './NewUserCourse.vue';
 
 export default {
   props: {
@@ -26,7 +36,20 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      userCourses: [],
+    };
+  },
+  created() {
+    this.getUserCourses();
+  },
   methods: {
+    getUserCourses() {
+      userCourseService.index(this.semester.id).then((response) => {
+        this.userCourses = response.data.user_courses;
+      });
+    },
     deleteSemester() {
       semestersService.delete(this.semester.id);
       this.$emit('deleteSemester');
@@ -34,6 +57,10 @@ export default {
     showParity(parity) {
       return parity ? 'Impar' : 'Par';
     },
+  },
+  components: {
+    NewUserCourse,
+    UserCourse,
   },
 };
 </script>

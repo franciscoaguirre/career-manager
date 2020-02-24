@@ -59,6 +59,8 @@
         Cerrar sesión
       </b-button>
     </b-col>
+    <NewUserCourse></NewUserCourse>
+    <DeleteModal></DeleteModal>
   </b-container>
 </template>
 
@@ -67,6 +69,8 @@ import authService from '../auth';
 import semestersService from '../services/semestersService';
 
 import Semester from '../components/Semester.vue';
+import NewUserCourse from '../components/modals/NewUserCourse.vue';
+import DeleteModal from '../components/modals/DeleteModal.vue';
 
 export default {
   data() {
@@ -145,6 +149,8 @@ export default {
   },
   components: {
     Semester,
+    NewUserCourse,
+    DeleteModal,
   },
   watch: {
     lastSemester: {
