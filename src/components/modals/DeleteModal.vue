@@ -24,9 +24,10 @@ export default {
   methods: {
     callDelete() {
       const functionName = `delete${this.requestedObject.type}`;
-      window[functionName](this.requestedObject.id);
-      this.$bvModal.hide('delete-confirmation');
-      EventBus.$emit('delete-done', 'deleted');
+      window[functionName](this.requestedObject.id).then(() => {
+        this.$bvModal.hide('delete-confirmation');
+        EventBus.$emit('delete-done', 'deleted');
+      });
     },
     cancelAction() {
       this.$bvModal.hide('delete-confirmation');
