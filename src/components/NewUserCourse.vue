@@ -15,7 +15,7 @@ export default {
     displayNew() {
       EventBus.$emit('create-userCourse-requested', this.semesterId);
       EventBus.$on('create-userCourse-done', (action) => {
-        this.$parent.$emit(action);
+        this.$emit(action);
         EventBus.$off('create-userCourse-done');
       });
     },

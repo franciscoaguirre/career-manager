@@ -67,9 +67,10 @@ export default {
   },
   methods: {
     createUserCourse() {
-      userCourseService.create(this.userCourse);
-      EventBus.$emit('create-userCourse-done', 'created');
-      this.$bvModal.hide('newCourse-modal');
+      userCourseService.create(this.userCourse).then(() => {
+        EventBus.$emit('create-userCourse-done', 'created');
+        this.$bvModal.hide('newCourse-modal');
+      });
     },
 
     cancelAction() {
