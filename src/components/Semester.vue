@@ -1,6 +1,6 @@
 <template>
   <b-col sm="5" class="semester rounded">
-    <h3>{{ semester.year }} {{ showParity(semester.parity) }}</h3>
+    <h3>{{ semester.year }} {{ showParity(semester.is_even) }}</h3>
     <div class="credits">
       {{ semester.credits }}/{{ semester.total_credits }}
     </div>
@@ -54,8 +54,8 @@ export default {
       semestersService.delete(this.semester.id);
       this.$emit('deleteSemester');
     },
-    showParity(parity) {
-      return parity ? 'Impar' : 'Par';
+    showParity(isEven) {
+      return isEven ? 'Par' : 'Impar';
     },
   },
   components: {
