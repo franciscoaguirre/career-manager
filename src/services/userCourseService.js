@@ -10,7 +10,8 @@ window.deleteUserCourse = function (userCourseId) {
 
 export default {
   index(semesterId) {
-    return axios.get(USER_COURSES_URL, semesterId);
+    console.log(semesterId);
+    return axios.get(USER_COURSES_URL, { params: { semester_id: semesterId } });
   },
   create(userCourseData) {
     return axios.post(USER_COURSES_URL, userCourseData);

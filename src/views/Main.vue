@@ -16,9 +16,9 @@
       <b-form-row class="justify-content-center m-2">
         <b-col sm="4">
           ¿Semestre par o impar?
-          <select v-model="lastSemester.parity">
-            <option value="0">Par</option>
-            <option value="1">Impar</option>
+          <select v-model="lastSemester.is_even">
+            <option :value="false" selected>Impar</option>
+            <option :value="true">Par</option>
           </select>
         </b-col>
       </b-form-row>
@@ -78,7 +78,7 @@ export default {
       semesters: {},
       lastSemester: {
         year: 0,
-        parity: 0,
+        is_even: false,
         credits: 0,
         total_credits: 0,
       },
@@ -96,6 +96,7 @@ export default {
           !Object.keys(this.semesters)
             .includes(String(response.data.semester.year))
         ) {
+          console.log(response.data.semester);
           this.$set(this.semesters, response.data.semester.year, []);
         }
         this.semesters[response.data.semester.year]
@@ -109,31 +110,31 @@ export default {
       }
       if (!Object.keys(this.semesters).length) {
         this.lastSemester.year = 0;
-        this.lastSemester.parity = 0;
+        this.lastSemester.is_even = 0;
       } else {
         this.decrementSemester();
       }
     },
     incrementSemester() {
-      if (!this.lastSemester.parity) {
-        this.lastSemester.parity = 1;
+      if (!this.lastSemester.is_even) {
+        this.lastSemester.is_even = true;
       } else {
         this.lastSemester.year += 1;
-        this.lastSemester.parity = 0;
+        this.lastSemester.is_even = false;
       }
     },
     decrementSemester() {
-      if (!this.lastSemester.parity) {
+      if (!this.lastSemester.is_even) {
         this.lastSemester.year -= 1;
-        this.lastSemester.parity = 1;
+        this.lastSemester.is_even = true;
       } else {
-        this.lastSemester.parity = 0;
+        this.lastSemester.is_even = false;
       }
     },
     compareWithLastSemester(semester) {
       return (
         semester.year === this.lastSemester.year
-          && semester.parity === this.lastSemester.parity
+          && semester.is_even === this.lastSemester.is_even
       );
     },
   },
@@ -141,9 +142,11 @@ export default {
     semestersService.index().then((response) => {
       this.semesters = semestersService.groupByYear(response.data.semesters);
       const lastYear = Object.keys(this.semesters).sort((a, b) => b - a)[0];
+      console.log(lastYear);
       if (this.semesters[lastYear]) {
-        this.lastSemester = { ...this.semesters[lastYear][1] }
-          || { ...this.semesters[lastYear][0] };
+        this.lastSemester = this.semesters[lastYear][1]
+          ? { ...this.semesters[lastYear][1] }
+          : { ...this.semesters[lastYear][0] };
       }
     });
   },
@@ -157,7 +160,9 @@ export default {
       deep: true,
       handler(val) {
         Object.keys(this.lastSemester).forEach((key) => {
-          this.lastSemester[key] = Number(val[key]);
+          if (key !== 'is_even') {
+            this.lastSemester[key] = Number(val[key]);
+          }
         });
       },
     },
